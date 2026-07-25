@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { useGigs } from "./hooks/useGigs";
 import { WalletButton } from "./components/WalletButton";
 
 
@@ -18,7 +19,7 @@ interface AgentPlan {
   paymentSplit: { research: number; execution: number; quality: number };
 }
 
-const SAMPLE_GIGS = [
+// const const { gigs, loading, STATUS } = useGigs();
   { id: 1, title: "Write DeFi market research report", bounty: 5, status: "OPEN" },
   { id: 2, title: "Create Web3 Twitter content calendar", bounty: 3, status: "OPEN" },
   { id: 3, title: "Audit Solidity smart contract", bounty: 10, status: "IN PROGRESS" },
@@ -120,7 +121,7 @@ export default function Home() {
               <div style={f({ fontSize: "11px", color: "#fff", textShadow: "2px 2px 0 #333366", borderLeft: "4px solid #00ff41", paddingLeft: "12px" })}>OPEN GIGS</div>
               <button onClick={() => setTab("post")} style={f({ fontSize: "8px", padding: "10px 16px", background: "#00ff41", color: "#000", border: "3px solid #00cc33", boxShadow: "4px 4px 0 #007a1f", cursor: "pointer", fontFamily: "'Press Start 2P', monospace" })}>+ POST GIG</button>
             </div>
-            {SAMPLE_GIGS.map((gig) => (
+            {gigs.map((gig) => (
               <div key={gig.id} style={f({ border: `3px solid ${gig.status === "OPEN" ? "#333366" : "#ff6b35"}`, background: "#1a1a2e", padding: "16px", marginBottom: "12px", display: "flex", alignItems: "center", justifyContent: "space-between", boxShadow: "4px 4px 0 #000" })}>
                 <div>
                   <div style={f({ fontSize: "9px", marginBottom: "8px" })}>{gig.title}</div>
