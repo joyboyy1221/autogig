@@ -2,21 +2,9 @@
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
-:root {
-  --bg: #0f0f1a;
-  --bg2: #1a1a2e;
-  --green: #00ff41;
-  --yellow: #ffd700;
-  --orange: #ff6b35;
-  --blue: #4da6ff;
-  --text: #e0e0e0;
-  --dim: #666699;
-  --border: #333366;
-}
-
 body {
-  background: var(--bg);
-  color: var(--text);
+  background: #0f0f1a;
+  color: #e0e0e0;
   font-family: 'Press Start 2P', monospace;
   font-size: 10px;
   line-height: 1.8;
@@ -32,6 +20,4 @@ body::after {
 }
 
 @keyframes blink { 0%,50%{opacity:1} 51%,100%{opacity:0} }
-@keyframes fadeIn { 0%{opacity:0;transform:translateY(4px)} 100%{opacity:1;transform:translateY(0)} }
 .blink { animation: blink 1s step-end infinite; }
-.fade-in { animation: fadeIn 0.3s steps(4) forwards; }

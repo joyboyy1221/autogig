@@ -17,9 +17,9 @@ interface AgentPlan {
 }
 
 const SAMPLE_GIGS = [
-  { id: 1, title: "Write a market research report on DeFi trends", bounty: 5, status: "Open" },
-  { id: 2, title: "Create a Twitter content calendar for Web3 project", bounty: 3, status: "Open" },
-  { id: 3, title: "Audit a Solidity smart contract for vulnerabilities", bounty: 10, status: "In Progress" },
+  { id: 1, title: "Write DeFi market research report", bounty: 5, status: "OPEN" },
+  { id: 2, title: "Create Web3 Twitter content calendar", bounty: 3, status: "OPEN" },
+  { id: 3, title: "Audit Solidity smart contract", bounty: 10, status: "IN PROGRESS" },
 ];
 
 export default function Home() {
@@ -29,7 +29,7 @@ export default function Home() {
   const [bounty, setBounty] = useState("5");
   const [loading, setLoading] = useState(false);
   const [agentPlan, setAgentPlan] = useState<AgentPlan | null>(null);
-  const [subtaskProgress, setSubtaskProgress] = useState<number>(-1);
+  const [subtaskProgress, setSubtaskProgress] = useState(-1);
   const [posted, setPosted] = useState(false);
 
   async function handlePost() {
@@ -48,164 +48,173 @@ export default function Home() {
       const data = await res.json();
       if (data.success) {
         setAgentPlan(data.agentPlan);
-        simulateProgress(data.agentPlan.subtasks);
+        let i = 0;
+        const interval = setInterval(() => {
+          setSubtaskProgress(i);
+          i++;
+          if (i >= data.agentPlan.subtasks.length) {
+            clearInterval(interval);
+            setTimeout(() => setPosted(true), 1000);
+          }
+        }, 1800);
       }
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(false);
-    }
+    } catch (e) { console.error(e); }
+    finally { setLoading(false); }
   }
 
-  function simulateProgress(subtasks: Subtask[]) {
-    let i = 0;
-    const interval = setInterval(() => {
-      setSubtaskProgress(i);
-      i++;
-      if (i >= subtasks.length) {
-        clearInterval(interval);
-        setTimeout(() => setPosted(true), 1000);
-      }
-    }, 1800);
-  }
+  const f = (style: React.CSSProperties) => style;
 
   return (
-    <div style={{ minHeight: "100vh", background: "#0a0b0f", color: "#e8e6e1", fontFamily: "'IBM Plex Mono', monospace" }}>
-      <header style={{ borderBottom: "1px solid #1e2030", padding: "0 2rem", display: "flex", alignItems: "center", justifyContent: "space-between", height: "64px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "12px" }}>
-          <div style={{ width: "32px", height: "32px", background: "linear-gradient(135deg, #00d4aa, #0088ff)", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px", fontWeight: "700", color: "#000" }}>A</div>
-          <span style={{ fontSize: "18px", fontWeight: "700" }}>AutoGig</span>
-          <span style={{ fontSize: "11px", background: "#1e2030", padding: "2px 8px", borderRadius: "4px", color: "#00d4aa", border: "1px solid #00d4aa30" }}>Arc Testnet</span>
+    <div style={f({ minHeight: "100vh", background: "#0f0f1a", color: "#e0e0e0", fontFamily: "'Press Start 2P', monospace" })}>
+      
+      {/* Header */}
+      <header style={f({ borderBottom: "3px solid #333366", padding: "0 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", height: "60px", background: "#1a1a2e", boxShadow: "0 3px 0 #000" })}>
+        <div style={f({ display: "flex", alignItems: "center", gap: "12px" })}>
+          <div style={f({ width: "36px", height: "36px", background: "#00ff41", display: "flex", alignItems: "center", justifyContent: "center", fontSize: "16px", border: "3px solid #00cc33", boxShadow: "3px 3px 0 #007a1f" })}>⚡</div>
+          <span style={f({ fontSize: "14px", color: "#00ff41", textShadow: "2px 2px 0 #007a1f", letterSpacing: "2px" })}>AUTOGIG</span>
+          <span style={f({ fontSize: "7px", background: "#16213e", padding: "4px 8px", border: "2px solid #333366", color: "#4da6ff" })}>ARC TESTNET</span>
         </div>
-        <div style={{ padding: "6px 14px", background: "#00d4aa15", border: "1px solid #00d4aa40", borderRadius: "6px", fontSize: "13px", color: "#00d4aa" }}>Connect Wallet</div>
+        <button style={f({ fontSize: "8px", padding: "8px 14px", background: "transparent", color: "#ffd700", border: "3px solid #ffd700", boxShadow: "3px 3px 0 #7a6500", cursor: "pointer", fontFamily: "'Press Start 2P', monospace" })}>
+          [ CONNECT WALLET ]
+        </button>
       </header>
 
-      <div style={{ textAlign: "center", padding: "4rem 2rem 2rem", borderBottom: "1px solid #1e2030" }}>
-        <div style={{ fontSize: "11px", color: "#00d4aa", letterSpacing: "3px", marginBottom: "16px" }}>POWERED BY ARC + CIRCLE USDC</div>
-        <h1 style={{ fontSize: "clamp(32px, 5vw, 56px)", fontWeight: "800", letterSpacing: "-2px", margin: "0 0 16px", lineHeight: "1.1" }}>
-          The autonomous<br />
-          <span style={{ background: "linear-gradient(90deg, #00d4aa, #0088ff)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>gig economy</span>
+      {/* Hero */}
+      <div style={f({ textAlign: "center", padding: "3rem 1.5rem 2rem", borderBottom: "3px solid #333366", background: "linear-gradient(180deg, #1a1a2e 0%, #0f0f1a 100%)" })}>
+        <div style={f({ fontSize: "8px", color: "#00ff41", letterSpacing: "4px", marginBottom: "16px" })}>▶ POWERED BY ARC + CIRCLE USDC ◀</div>
+        <h1 style={f({ fontSize: "clamp(18px, 4vw, 32px)", color: "#fff", margin: "0 0 8px", textShadow: "4px 4px 0 #333366", lineHeight: "1.6" })}>
+          THE AUTONOMOUS<br/>
+          <span style={f({ color: "#00ff41", textShadow: "4px 4px 0 #007a1f" })}>GIG ECONOMY</span>
         </h1>
-        <p style={{ color: "#6b7280", fontSize: "16px", maxWidth: "480px", margin: "0 auto 32px", lineHeight: "1.6" }}>
-          Post a task, lock USDC, and let AI agents autonomously execute it. Payment releases on completion.
+        <p style={f({ color: "#666699", fontSize: "8px", maxWidth: "440px", margin: "16px auto 24px", lineHeight: "2" })}>
+          POST A TASK › LOCK USDC › AI AGENTS EXECUTE<br/>
+          PAYMENT AUTO-RELEASES ON COMPLETION
         </p>
-        <div style={{ display: "flex", justifyContent: "center", gap: "32px", fontSize: "14px", color: "#6b7280" }}>
-          <span>⚡ Sub-second settlement</span>
-          <span>💵 USDC gas fees</span>
-          <span>🤖 Fully autonomous</span>
+        <div style={f({ display: "flex", justifyContent: "center", gap: "12px", fontSize: "7px", flexWrap: "wrap" })}>
+          {["⚡ SUB-SECOND SETTLEMENT", "💵 USDC GAS FEES", "🤖 FULLY AUTONOMOUS"].map((s) => (
+            <span key={s} style={f({ color: "#4da6ff", background: "#16213e", padding: "6px 10px", border: "2px solid #333366" })}>{s}</span>
+          ))}
         </div>
       </div>
 
-      <div style={{ display: "flex", borderBottom: "1px solid #1e2030", padding: "0 2rem" }}>
+      {/* Tabs */}
+      <div style={f({ display: "flex", borderBottom: "3px solid #333366", background: "#1a1a2e" })}>
         {(["browse", "post", "agent"] as const).map((t) => (
-          <button key={t} onClick={() => setTab(t)} style={{ padding: "14px 24px", background: "none", border: "none", borderBottom: tab === t ? "2px solid #00d4aa" : "2px solid transparent", color: tab === t ? "#00d4aa" : "#6b7280", cursor: "pointer", fontSize: "13px", fontFamily: "inherit", fontWeight: tab === t ? "600" : "400", textTransform: "uppercase", letterSpacing: "1px", marginBottom: "-1px" }}>
-            {t === "browse" ? "Browse Gigs" : t === "post" ? "Post a Gig" : "Agent Activity"}
+          <button key={t} onClick={() => setTab(t)} style={f({
+            padding: "14px 20px", background: tab === t ? "#0f0f1a" : "transparent",
+            border: "none", borderBottom: tab === t ? "3px solid #00ff41" : "3px solid transparent",
+            color: tab === t ? "#00ff41" : "#666699", cursor: "pointer",
+            fontFamily: "'Press Start 2P', monospace", fontSize: "8px", letterSpacing: "1px", marginBottom: "-3px"
+          })}>
+            {t === "browse" ? "▸ BROWSE" : t === "post" ? "▸ POST GIG" : "▸ AGENT"}
           </button>
         ))}
       </div>
 
-      <main style={{ maxWidth: "900px", margin: "0 auto", padding: "2rem" }}>
+      <main style={f({ maxWidth: "860px", margin: "0 auto", padding: "2rem 1.5rem" })}>
+
+        {/* Browse */}
         {tab === "browse" && (
           <div>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "24px" }}>
-              <h2 style={{ margin: 0, fontSize: "18px" }}>Open Gigs</h2>
-              <button onClick={() => setTab("post")} style={{ padding: "8px 20px", background: "#00d4aa", color: "#000", border: "none", borderRadius: "6px", cursor: "pointer", fontFamily: "inherit", fontSize: "13px", fontWeight: "700" }}>+ Post Gig</button>
+            <div style={f({ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "20px" })}>
+              <div style={f({ fontSize: "11px", color: "#fff", textShadow: "2px 2px 0 #333366", borderLeft: "4px solid #00ff41", paddingLeft: "12px" })}>OPEN GIGS</div>
+              <button onClick={() => setTab("post")} style={f({ fontSize: "8px", padding: "10px 16px", background: "#00ff41", color: "#000", border: "3px solid #00cc33", boxShadow: "4px 4px 0 #007a1f", cursor: "pointer", fontFamily: "'Press Start 2P', monospace" })}>+ POST GIG</button>
             </div>
-            <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-              {SAMPLE_GIGS.map((gig) => (
-                <div key={gig.id} style={{ border: "1px solid #1e2030", borderRadius: "10px", padding: "20px", background: "#0d0f18", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                  <div>
-                    <div style={{ fontWeight: "600", marginBottom: "6px", fontSize: "15px" }}>{gig.title}</div>
-                    <span style={{ padding: "2px 8px", borderRadius: "4px", fontSize: "11px", background: gig.status === "Open" ? "#00d4aa20" : "#ff880020", color: gig.status === "Open" ? "#00d4aa" : "#ff8800", border: `1px solid ${gig.status === "Open" ? "#00d4aa40" : "#ff880040"}` }}>{gig.status}</span>
-                  </div>
-                  <div style={{ textAlign: "right" }}>
-                    <div style={{ fontSize: "20px", fontWeight: "800", color: "#00d4aa" }}>${gig.bounty}</div>
-                    <div style={{ fontSize: "11px", color: "#6b7280" }}>USDC</div>
-                    <button style={{ marginTop: "8px", padding: "6px 16px", background: "none", border: "1px solid #1e2030", borderRadius: "6px", color: "#e8e6e1", cursor: "pointer", fontFamily: "inherit", fontSize: "12px" }}>Take Gig</button>
-                  </div>
+            {SAMPLE_GIGS.map((gig) => (
+              <div key={gig.id} style={f({ border: `3px solid ${gig.status === "OPEN" ? "#333366" : "#ff6b35"}`, background: "#1a1a2e", padding: "16px", marginBottom: "12px", display: "flex", alignItems: "center", justifyContent: "space-between", boxShadow: "4px 4px 0 #000" })}>
+                <div>
+                  <div style={f({ fontSize: "9px", marginBottom: "8px" })}>{gig.title}</div>
+                  <span style={f({ fontSize: "7px", padding: "4px 8px", background: gig.status === "OPEN" ? "#003300" : "#331a00", color: gig.status === "OPEN" ? "#00ff41" : "#ff6b35", border: `2px solid ${gig.status === "OPEN" ? "#00ff41" : "#ff6b35"}` })}>{gig.status}</span>
                 </div>
-              ))}
-            </div>
+                <div style={f({ textAlign: "right" })}>
+                  <div style={f({ fontSize: "18px", color: "#ffd700", textShadow: "2px 2px 0 #7a6500" })}>${gig.bounty}</div>
+                  <div style={f({ fontSize: "7px", color: "#666699" })}>USDC</div>
+                  <button style={f({ marginTop: "8px", fontSize: "7px", padding: "6px 12px", background: "transparent", border: "2px solid #333366", color: "#e0e0e0", cursor: "pointer", fontFamily: "'Press Start 2P', monospace" })}>TAKE GIG ▸</button>
+                </div>
+              </div>
+            ))}
           </div>
         )}
 
+        {/* Post */}
         {tab === "post" && (
-          <div style={{ maxWidth: "600px" }}>
-            <h2 style={{ margin: "0 0 24px", fontSize: "18px" }}>Post a New Gig</h2>
-            <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-              <div>
-                <label style={{ display: "block", fontSize: "12px", color: "#6b7280", marginBottom: "6px", letterSpacing: "1px" }}>TASK TITLE</label>
-                <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. Write a market research report on AI trends" style={{ width: "100%", padding: "12px 14px", background: "#0d0f18", border: "1px solid #1e2030", borderRadius: "8px", color: "#e8e6e1", fontFamily: "inherit", fontSize: "14px", boxSizing: "border-box" }} />
-              </div>
-              <div>
-                <label style={{ display: "block", fontSize: "12px", color: "#6b7280", marginBottom: "6px", letterSpacing: "1px" }}>DESCRIPTION</label>
-                <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Describe what you need..." rows={4} style={{ width: "100%", padding: "12px 14px", background: "#0d0f18", border: "1px solid #1e2030", borderRadius: "8px", color: "#e8e6e1", fontFamily: "inherit", fontSize: "14px", resize: "vertical", boxSizing: "border-box" }} />
-              </div>
-              <div>
-                <label style={{ display: "block", fontSize: "12px", color: "#6b7280", marginBottom: "6px", letterSpacing: "1px" }}>BOUNTY (USDC)</label>
-                <div style={{ display: "flex", gap: "8px" }}>
-                  {["1", "3", "5", "10", "25"].map((v) => (
-                    <button key={v} onClick={() => setBounty(v)} style={{ padding: "8px 16px", borderRadius: "6px", cursor: "pointer", fontFamily: "inherit", fontSize: "13px", fontWeight: "600", background: bounty === v ? "#00d4aa" : "none", color: bounty === v ? "#000" : "#e8e6e1", border: bounty === v ? "1px solid #00d4aa" : "1px solid #1e2030" }}>${v}</button>
-                  ))}
-                </div>
-              </div>
-              <button onClick={handlePost} disabled={!title || !description || loading} style={{ padding: "14px", background: (!title || !description) ? "#1e2030" : "linear-gradient(90deg, #00d4aa, #0088ff)", color: (!title || !description) ? "#6b7280" : "#000", border: "none", borderRadius: "8px", cursor: (!title || !description) ? "not-allowed" : "pointer", fontFamily: "inherit", fontSize: "14px", fontWeight: "700" }}>
-                {loading ? "🤖 AI Agent Processing..." : "POST GIG + LOCK USDC ON ARC →"}
-              </button>
+          <div style={f({ maxWidth: "580px" })}>
+            <div style={f({ fontSize: "11px", color: "#fff", textShadow: "2px 2px 0 #333366", borderLeft: "4px solid #00ff41", paddingLeft: "12px", marginBottom: "20px" })}>POST A NEW GIG</div>
+            <div style={f({ marginBottom: "20px" })}>
+              <label style={f({ display: "block", fontSize: "8px", color: "#4da6ff", marginBottom: "8px", letterSpacing: "2px" })}>▸ TASK TITLE</label>
+              <input value={title} onChange={(e) => setTitle(e.target.value)} placeholder="e.g. Write a DeFi research report" style={f({ width: "100%", padding: "12px", background: "#0f0f1a", border: "3px solid #333366", boxShadow: "inset 3px 3px 0 #000", color: "#e0e0e0", fontFamily: "'Press Start 2P', monospace", fontSize: "8px", outline: "none", lineHeight: "1.8", boxSizing: "border-box" })} />
             </div>
+            <div style={f({ marginBottom: "20px" })}>
+              <label style={f({ display: "block", fontSize: "8px", color: "#4da6ff", marginBottom: "8px", letterSpacing: "2px" })}>▸ DESCRIPTION</label>
+              <textarea value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Describe what you need..." rows={4} style={f({ width: "100%", padding: "12px", background: "#0f0f1a", border: "3px solid #333366", boxShadow: "inset 3px 3px 0 #000", color: "#e0e0e0", fontFamily: "'Press Start 2P', monospace", fontSize: "8px", outline: "none", lineHeight: "1.8", resize: "vertical", boxSizing: "border-box" })} />
+            </div>
+            <div style={f({ marginBottom: "20px" })}>
+              <label style={f({ display: "block", fontSize: "8px", color: "#4da6ff", marginBottom: "8px", letterSpacing: "2px" })}>▸ BOUNTY (USDC)</label>
+              <div style={f({ display: "flex", gap: "8px", flexWrap: "wrap" })}>
+                {["1", "3", "5", "10", "25"].map((v) => (
+                  <button key={v} onClick={() => setBounty(v)} style={f({ padding: "8px 14px", background: bounty === v ? "#ffd700" : "transparent", color: bounty === v ? "#000" : "#e0e0e0", border: `3px solid ${bounty === v ? "#ffd700" : "#333366"}`, boxShadow: bounty === v ? "3px 3px 0 #7a6500" : "3px 3px 0 #000", cursor: "pointer", fontFamily: "'Press Start 2P', monospace", fontSize: "8px" })}>${v}</button>
+                ))}
+              </div>
+            </div>
+            <div style={f({ background: "#0f0f1a", border: "3px solid #333366", padding: "14px", marginBottom: "16px", boxShadow: "inset 3px 3px 0 #000" })}>
+              <div style={f({ display: "flex", justifyContent: "space-between", fontSize: "8px", marginBottom: "6px" })}><span style={f({ color: "#666699" })}>BOUNTY</span><span style={f({ color: "#ffd700" })}>${bounty} USDC</span></div>
+              <div style={f({ display: "flex", justifyContent: "space-between", fontSize: "8px", borderTop: "2px solid #333366", paddingTop: "8px", marginTop: "6px" })}><span>TOTAL LOCKED ON ARC</span><span style={f({ color: "#00ff41" })}>${bounty} USDC</span></div>
+            </div>
+            <button onClick={handlePost} disabled={!title || !description || loading} style={f({ width: "100%", padding: "14px", background: (!title || !description) ? "#1a1a2e" : "#00ff41", color: (!title || !description) ? "#666699" : "#000", border: `3px solid ${(!title || !description) ? "#333366" : "#00cc33"}`, boxShadow: (!title || !description) ? "none" : "4px 4px 0 #007a1f", cursor: (!title || !description) ? "not-allowed" : "pointer", fontFamily: "'Press Start 2P', monospace", fontSize: "8px", letterSpacing: "1px" })}>
+              {loading ? "▸ AI AGENT PROCESSING..." : "POST GIG + LOCK USDC ON ARC ▸"}
+            </button>
           </div>
         )}
 
+        {/* Agent */}
         {tab === "agent" && (
           <div>
-            <h2 style={{ margin: "0 0 24px", fontSize: "18px" }}>Agent Activity</h2>
+            <div style={f({ fontSize: "11px", color: "#fff", textShadow: "2px 2px 0 #333366", borderLeft: "4px solid #00ff41", paddingLeft: "12px", marginBottom: "20px" })}>AGENT ACTIVITY</div>
             {!agentPlan && !loading && (
-              <div style={{ textAlign: "center", padding: "60px 20px", color: "#6b7280" }}>
-                <div style={{ fontSize: "48px", marginBottom: "16px" }}>🤖</div>
-                <p>No active agent session. Post a gig to see agent activity.</p>
+              <div style={f({ textAlign: "center", padding: "60px 20px", color: "#666699" })}>
+                <div style={f({ fontSize: "48px", marginBottom: "16px" })}>🤖</div>
+                <div style={f({ fontSize: "8px", lineHeight: "2" })}>NO ACTIVE AGENT SESSION<br/>POST A GIG TO BEGIN<span className="blink">_</span></div>
               </div>
             )}
             {loading && (
-              <div style={{ textAlign: "center", padding: "60px 20px" }}>
-                <div style={{ fontSize: "32px", marginBottom: "16px" }}>⚙️</div>
-                <p style={{ color: "#00d4aa" }}>AI Agent analyzing task...</p>
+              <div style={f({ textAlign: "center", padding: "60px 20px" })}>
+                <div style={f({ fontSize: "32px", marginBottom: "16px" })}>⚙️</div>
+                <div style={f({ fontSize: "8px", color: "#00ff41", lineHeight: "2" })}>INITIALIZING AI AGENT<span className="blink">...</span></div>
               </div>
             )}
             {agentPlan && (
               <div>
-                <div style={{ background: "#0d0f18", border: "1px solid #1e2030", borderRadius: "10px", padding: "20px", marginBottom: "20px" }}>
-                  <div style={{ fontSize: "11px", color: "#00d4aa", letterSpacing: "2px", marginBottom: "8px" }}>AGENT ANALYSIS</div>
-                  <p style={{ margin: 0, fontSize: "14px", lineHeight: "1.6", color: "#c9c7c2" }}>{agentPlan.analysis}</p>
-                  <div style={{ display: "flex", gap: "16px", marginTop: "12px", fontSize: "12px", color: "#6b7280" }}>
+                <div style={f({ background: "#1a1a2e", border: "3px solid #4da6ff", padding: "16px", marginBottom: "20px", boxShadow: "4px 4px 0 #000" })}>
+                  <div style={f({ fontSize: "7px", color: "#4da6ff", letterSpacing: "3px", marginBottom: "10px" })}>▸ AGENT ANALYSIS</div>
+                  <div style={f({ fontSize: "8px", color: "#c9c7c2", lineHeight: "2" })}>{agentPlan.analysis}</div>
+                  <div style={f({ display: "flex", gap: "16px", marginTop: "12px", fontSize: "7px", color: "#666699" })}>
                     <span>⏱ {agentPlan.estimatedTime}</span>
-                    <span>💵 ${bounty} USDC bounty</span>
+                    <span>💵 ${bounty} USDC LOCKED</span>
                   </div>
                 </div>
-                <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-                  {agentPlan.subtasks.map((subtask, i) => {
-                    const isDone = subtaskProgress > i;
-                    const isRunning = subtaskProgress === i;
-                    return (
-                      <div key={subtask.id} style={{ border: `1px solid ${isDone ? "#00d4aa40" : isRunning ? "#0088ff40" : "#1e2030"}`, borderRadius: "10px", padding: "16px", background: isDone ? "#00d4aa08" : isRunning ? "#0088ff08" : "#0d0f18", transition: "all 0.3s" }}>
-                        <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" }}>
-                          <span>{isDone ? "✅" : isRunning ? "⚡" : "⏳"}</span>
-                          <span style={{ fontWeight: "600", fontSize: "14px" }}>{subtask.worker}</span>
-                          <span style={{ marginLeft: "auto", fontSize: "11px", padding: "2px 8px", borderRadius: "4px", background: isDone ? "#00d4aa20" : isRunning ? "#0088ff20" : "#1e2030", color: isDone ? "#00d4aa" : isRunning ? "#4da6ff" : "#6b7280" }}>
-                            {isDone ? "COMPLETE" : isRunning ? "RUNNING" : "PENDING"}
-                          </span>
-                        </div>
-                        <p style={{ margin: "0 0 6px", fontSize: "13px", color: "#c9c7c2" }}>{subtask.task}</p>
-                        <p style={{ margin: 0, fontSize: "12px", color: "#6b7280" }}>Output: {subtask.expectedOutput}</p>
+                <div style={f({ fontSize: "7px", color: "#666699", letterSpacing: "3px", marginBottom: "12px" })}>▸ SUBTASK EXECUTION</div>
+                {agentPlan.subtasks.map((subtask, i) => {
+                  const isDone = subtaskProgress > i;
+                  const isRunning = subtaskProgress === i;
+                  return (
+                    <div key={subtask.id} style={f({ border: `3px solid ${isDone ? "#00ff41" : isRunning ? "#4da6ff" : "#333366"}`, background: isDone ? "#001a00" : isRunning ? "#001633" : "#1a1a2e", padding: "14px", marginBottom: "10px", boxShadow: `4px 4px 0 ${isDone ? "#007a1f" : isRunning ? "#003366" : "#000"}`, transition: "all 0.3s" })}>
+                      <div style={f({ display: "flex", alignItems: "center", gap: "10px", marginBottom: "8px" })}>
+                        <span>{isDone ? "✅" : isRunning ? "⚡" : "⏳"}</span>
+                        <span style={f({ fontSize: "9px", fontWeight: "600" })}>{subtask.worker}</span>
+                        <span style={f({ marginLeft: "auto", fontSize: "7px", padding: "3px 8px", background: isDone ? "#003300" : isRunning ? "#001633" : "#0f0f1a", color: isDone ? "#00ff41" : isRunning ? "#4da6ff" : "#666699", border: `2px solid ${isDone ? "#00ff41" : isRunning ? "#4da6ff" : "#333366"}` })}>
+                          {isDone ? "COMPLETE" : isRunning ? "RUNNING" : "PENDING"}
+                        </span>
                       </div>
-                    );
-                  })}
-                </div>
+                      <div style={f({ fontSize: "8px", color: "#c9c7c2", lineHeight: "2", marginBottom: "4px" })}>{subtask.task}</div>
+                      <div style={f({ fontSize: "7px", color: "#666699", lineHeight: "2" })}>OUTPUT: {subtask.expectedOutput}</div>
+                    </div>
+                  );
+                })}
                 {posted && (
-                  <div style={{ marginTop: "20px", background: "#00d4aa10", border: "1px solid #00d4aa40", borderRadius: "10px", padding: "20px", textAlign: "center" }}>
-                    <div style={{ fontSize: "24px", marginBottom: "8px" }}>🎉</div>
-                    <div style={{ fontWeight: "700", fontSize: "16px", color: "#00d4aa", marginBottom: "4px" }}>Gig Posted Successfully!</div>
-                    <div style={{ fontSize: "13px", color: "#6b7280" }}>${bounty} USDC locked on Arc smart contract.</div>
-                    <div style={{ marginTop: "12px", fontSize: "12px", color: "#4da6ff" }}>View on Arc Explorer → testnet.arcscan.app</div>
+                  <div style={f({ marginTop: "20px", background: "#001a00", border: "3px solid #00ff41", padding: "20px", textAlign: "center", boxShadow: "4px 4px 0 #007a1f" })}>
+                    <div style={f({ fontSize: "12px", color: "#00ff41", textShadow: "2px 2px 0 #007a1f", marginBottom: "8px" })}>★ GIG POSTED! ★</div>
+                    <div style={f({ fontSize: "7px", color: "#666699", lineHeight: "2" })}>${bounty} USDC LOCKED IN ARC SMART CONTRACT<br/>PAYMENT WILL AUTO-RELEASE ON COMPLETION</div>
+                    <div style={f({ marginTop: "10px", fontSize: "7px", color: "#4da6ff" })}>▸ VIEW ON ARC EXPLORER: TESTNET.ARCSCAN.APP</div>
                   </div>
                 )}
               </div>
