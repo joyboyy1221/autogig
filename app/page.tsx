@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { WalletButton } from "./components/WalletButton";
+
 
 interface Subtask {
   id: number;
@@ -75,7 +76,7 @@ export default function Home() {
           <span style={f({ fontSize: "14px", color: "#00ff41", textShadow: "2px 2px 0 #007a1f", letterSpacing: "2px" })}>AUTOGIG</span>
           <span style={f({ fontSize: "7px", background: "#16213e", padding: "4px 8px", border: "2px solid #333366", color: "#4da6ff" })}>ARC TESTNET</span>
         </div>
-        <ConnectButton />
+        <WalletButton />
       </header>
 
       {/* Hero */}
