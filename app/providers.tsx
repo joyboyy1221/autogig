@@ -15,7 +15,7 @@ const arcTestnet = {
 
 const config = getDefaultConfig({
   appName: "AutoGig",
-  projectId: "autogig123456",
+  projectId: "f29c3441e3d015768ff805fb767499e2",
   chains: [arcTestnet],
   ssr: true,
 });
