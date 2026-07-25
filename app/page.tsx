@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
 
 interface Subtask {
   id: number;
@@ -66,7 +67,7 @@ export default function Home() {
 
   return (
     <div style={f({ minHeight: "100vh", background: "#0f0f1a", color: "#e0e0e0", fontFamily: "'Press Start 2P', monospace" })}>
-      
+
       {/* Header */}
       <header style={f({ borderBottom: "3px solid #333366", padding: "0 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", height: "60px", background: "#1a1a2e", boxShadow: "0 3px 0 #000" })}>
         <div style={f({ display: "flex", alignItems: "center", gap: "12px" })}>
@@ -74,9 +75,7 @@ export default function Home() {
           <span style={f({ fontSize: "14px", color: "#00ff41", textShadow: "2px 2px 0 #007a1f", letterSpacing: "2px" })}>AUTOGIG</span>
           <span style={f({ fontSize: "7px", background: "#16213e", padding: "4px 8px", border: "2px solid #333366", color: "#4da6ff" })}>ARC TESTNET</span>
         </div>
-        <button style={f({ fontSize: "8px", padding: "8px 14px", background: "transparent", color: "#ffd700", border: "3px solid #ffd700", boxShadow: "3px 3px 0 #7a6500", cursor: "pointer", fontFamily: "'Press Start 2P', monospace" })}>
-          [ CONNECT WALLET ]
-        </button>
+        <ConnectButton />
       </header>
 
       {/* Hero */}
