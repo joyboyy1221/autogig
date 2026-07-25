@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { publicClient, CONTRACT_ADDRESS, ABI } from "../lib/contract";
+import { publicClient, CONTRACT_ADDRESS, ABI } from "../../lib/contract";
 
 export interface Gig {
   id: number;
